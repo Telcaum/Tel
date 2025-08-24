@@ -62,8 +62,8 @@ Tel_VMResult Tel_execute(Tel_VM *vm, Tel_Chunk const *chunk) {
     } while (0)
 
   #else
-    #define DEBUG_PRINT_INST(chunk, index)
-    #define DEBUG_PRINT_STACK(stack, until)
+    #define DEBUG_PRINT_INST(index)
+    #define DEBUG_PRINT_STACK(until)
   #endif
 
 

@@ -6,7 +6,6 @@
 
 
 void Tel_initErrorLogger(Tel_ErrorLogger *self, char const *source) {
-  *self = (Tel_ErrorLogger){};
   self->source = source;
   self->logged_an_error = false;
 }

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "tel.h"
+#include "tel_memory.h"
 
 
 static char *readFile(char const *path) {

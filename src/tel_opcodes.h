@@ -2,6 +2,7 @@
   // make the LS shut up
   #define _TEL_OP(name)
 #endif // it doesn't work lol
+// edit it does work with clang i love you
 
 // R(X): the Xth register
 // C(X): the Xth constant

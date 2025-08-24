@@ -13,6 +13,9 @@ typedef union {
 } Tel_Value;
 
 
+#define TEL_VALUES_EQUAL(v1, v2) ((v1).number == (v2).number)
+
+
 typedef TEL_LIST(Tel_Value) Tel_ValueList;
 
 

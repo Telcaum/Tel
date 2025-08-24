@@ -1,4 +1,8 @@
+#include <assert.h>
+#include <stdint.h>
+
 #include "tel_chunk.h"
+#include "tel_value.h"
 
 
 void Tel_initChunk(Tel_Chunk *chunk) {
@@ -18,7 +22,7 @@ void Tel_freeChunk(Tel_Chunk *chunk) {
 void Tel_writeInst(Tel_Chunk *chunk, Tel_Inst byte, int line) {
   TEL_LIST_PUSH(&chunk->code, byte, Tel_Inst);
   if (chunk->lines.length == 0 || chunk->lines.data[chunk->lines.length - 1].line != line) {
-    _Tel_InstructionLine l = {};
+    _Tel_InstructionLine l;
     l.line = line;
     l.inst_index = chunk->code.length - 1;
     TEL_LIST_PUSH(&chunk->lines, l, _Tel_InstructionLine);
@@ -27,6 +31,13 @@ void Tel_writeInst(Tel_Chunk *chunk, Tel_Inst byte, int line) {
 
 
 int Tel_addConstant(Tel_Chunk *chunk, Tel_Value value) {
+  for (int i = 0; i < chunk->constants.length; i++) {
+    Tel_Value v = chunk->constants.data[i];
+    if (TEL_VALUES_EQUAL(v, value)) {
+      return i;
+    }
+  }
+
   TEL_WRITE_VALUE(&chunk->constants, value);
   return chunk->constants.length - 1;
 }
@@ -34,6 +45,8 @@ int Tel_addConstant(Tel_Chunk *chunk, Tel_Value value) {
 
 void Tel_writeConstant(Tel_Chunk *chunk, Tel_Value value, Tel_Byte a, int line) {
   int index = Tel_addConstant(chunk, value);
+
+  assert(index <= UINT16_MAX && "TOO MANY CONSTANTS IN A SINGLE CHUNK!!! idk separate your function in smaller functions");
 
   Tel_writeInst(chunk, TEL_ABB_INST(TEL_OP_LOAD_CONST, a, index), line);
 }

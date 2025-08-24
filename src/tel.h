@@ -1,7 +1,5 @@
 #pragma once
 
-#include "tel_vm.h"
-
 
 typedef enum {
   TEL_EXEC_OK = 0,
