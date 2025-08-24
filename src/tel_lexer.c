@@ -1,13 +1,10 @@
 #include <assert.h>
-#include <stdio.h>
 #include <string.h>
 
 #include "tel_lexer.h"
 
 
 void Tel_initLexer(Tel_Lexer *self, char const *source) {
-  *self = (Tel_Lexer){};
-
   self->line = 1;
   self->indent = 0;
   self->is_counting_indent = true;
@@ -89,7 +86,7 @@ static void skipWhitespace(Tel_Lexer *self) {
 
 
 static Tel_Token newToken(Tel_Lexer *self, Tel_TokenType type) {
-  Tel_Token token = {};
+  Tel_Token token;
   token.type = type;
   token.line = self->line;
   token.indent = self->indent;
@@ -125,7 +122,7 @@ static Tel_Token scanName(Tel_Lexer *self) {
   char const *start = &self->source[self->start];
   switch (length) {
     case 2:
-      /**/ if (strncmp(start, "fn", 2) == 0) type = TEL_TT_FN;
+      if      (strncmp(start, "fn", 2) == 0) type = TEL_TT_FN;
       else if (strncmp(start, "if", 2) == 0) type = TEL_TT_IF;
       break;
 
@@ -151,6 +148,14 @@ static Tel_Token scanSymbol(Tel_Lexer *self) {
     case ')': return newToken(self, TEL_TT_RPAREN);
     case ':': return newToken(self, TEL_TT_COLON);
     case ',': return newToken(self, TEL_TT_COMMA);
+    case '=': return newToken(self, TEL_TT_EQUAL);
+
+    case '<':
+      if (peek(self) == '>') {
+        advance(self);
+        return newToken(self, TEL_TT_DIAMOND);
+      }
+      return newToken(self, TEL_TT_LESS_THAN);
   }
 
   return newToken(self, TEL_TT_UNKNOWN);

@@ -21,6 +21,9 @@
   _TEL_TT(RPAREN) \
   _TEL_TT(COLON) \
   _TEL_TT(COMMA) \
+  _TEL_TT(EQUAL) \
+  _TEL_TT(DIAMOND) \
+  _TEL_TT(LESS_THAN) \
   \
   _TEL_TT(UNKNOWN) \
   _TEL_TT(EOF) \

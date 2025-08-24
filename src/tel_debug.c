@@ -11,6 +11,34 @@ void Tel_printToken(Tel_Token token, char const *source) {
 }
 
 
+void Tel_printNode(Tel_Node *node, char const *source) {
+  if (node == NULL) {
+    printf("?");
+    return;
+  }
+
+  switch (node->type) {
+    case TEL_NT_NUMBER:
+      printf("%g", node->as.number.value);
+      break;
+
+    case TEL_NT_PREFIX:
+      printf("(%.*s ", node->token.length, &source[node->token.start]);
+      Tel_printNode(node->as.prefix.arg, source);
+      printf(")");
+      break;
+
+    case TEL_NT_INFIX:
+      printf("(%.*s ", node->token.length, &source[node->token.start]);
+      Tel_printNode(node->as.infix.lhs, source);
+      printf(" ");
+      Tel_printNode(node->as.infix.rhs, source);
+      printf(")");
+      break;
+  }
+}
+
+
 static void simpleInstruction(char const *name) {
   printf("%s\n", name);
 }

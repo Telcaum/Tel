@@ -2,6 +2,7 @@
 
 #include "tel_chunk.h"
 #include "tel_lexer.h"
+#include "tel_node.h"
 
 
 #define TEL_DEBUG_TRACE_EXECUTION
@@ -9,6 +10,9 @@
 
 
 void Tel_printToken(Tel_Token token, char const *source);
+
+// node can safely be NULL
+void Tel_printNode(Tel_Node *node, char const *source);
 
 void printInstruction(Tel_Chunk const *chunk, int index);
 void Tel_printChunk(Tel_Chunk const *chunk, char const *name);

@@ -6,6 +6,8 @@
 #define TEL_NUMBER(n) ((Tel_Value){ .number = (n) })
 
 
+typedef double Tel_Number;
+
 typedef union {
   double number;
 } Tel_Value;
